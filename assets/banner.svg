@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" font-family="'Microsoft YaHei', 'Segoe UI', sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1117"/>
+      <stop offset="1" stop-color="#1a2740"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3fb950"/>
+      <stop offset="1" stop-color="#58a6ff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="300" fill="url(#bg)"/>
+
+  <!-- 装饰网格 -->
+  <g opacity="0.04" stroke="#ffffff">
+    <line x1="0" y1="60" x2="1200" y2="60"/><line x1="0" y1="120" x2="1200" y2="120"/>
+    <line x1="0" y1="180" x2="1200" y2="180"/><line x1="0" y1="240" x2="1200" y2="240"/>
+    <line x1="200" y1="0" x2="200" y2="300"/><line x1="400" y1="0" x2="400" y2="300"/>
+    <line x1="600" y1="0" x2="600" y2="300"/><line x1="800" y1="0" x2="800" y2="300"/>
+    <line x1="1000" y1="0" x2="1000" y2="300"/>
+  </g>
+
+  <!-- 主标题 -->
+  <text x="600" y="120" text-anchor="middle" fill="#ffffff" font-size="54" font-weight="bold">「小明」SQL Server 2012 安装补丁</text>
+  <text x="600" y="180" text-anchor="middle" fill="#58a6ff" font-size="34" font-weight="bold">PowerShell 2.0 缺失修复工具箱</text>
+
+  <rect x="340" y="205" width="520" height="3" rx="1.5" fill="url(#accent)"/>
+
+  <text x="600" y="250" text-anchor="middle" fill="#9aa4b2" font-size="20">源自微软官方缓解包 ps2DLC · 一键修复老版 SQL Server 安装报错 · 绿色纯净可审计</text>
+</svg>

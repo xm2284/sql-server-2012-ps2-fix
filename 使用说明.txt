@@ -1,0 +1,149 @@
+﻿========================================================
+ SQL Server 2012 安装补丁包（PowerShell 2.0 缺失修复）
+ 打包日期：2026-09-22   适用：Windows 10 / 11
+========================================================
+
+【你遇到的问题】
+
+在新版 Windows 上安装 SQL Server 2008 R2 / 2012 / 2014 时，弹出：
+
+  "启用 Windows 功能 MicrosoftWindowsPowerShellV2 时出错，
+    错误代码: -2146498548"
+
+  或者程序兼容性助手持出：
+  "此应用需要已弃用的 PowerShell 2.0"
+
+【原因】
+
+微软已从 Windows 10 1709 起逐步移除 PowerShell 2.0，在 Windows 11
+24H2/25H2 及更新版本中已彻底删除。但老版 SQL Server 安装程序强制检查
+这个组件，找不到就报错，自动启用也必然失败。
+
+本补丁的作用：把 PowerShell 2.0 的程序集注册进系统（GAC）并写入所需
+注册表项，让安装程序的检查通过。
+
+
+【怎么用 —— 三步】
+
+  第 1 步  把本压缩包解压到任意位置
+           （路径尽量短，建议直接解压到 D:\ 或 E:\ 根目录）
+
+  第 2 步  右键点击「一键安装.bat」→ 选择「以管理员身份运行」
+           如果弹出蓝色的 用户账户控制(UAC) 窗口 → 点「是」
+
+  第 3 步  看到绿色的 "补丁安装成功" 字样即完成，
+           然后重新运行 SQL Server 安装程序，即可正常安装
+
+
+【前置条件：需要 .NET Framework 3.5】
+
+PowerShell 2.0 依赖 .NET 3.5 才能运行。绝大多数 Windows 都默认已启用，
+如果一键脚本提示缺少，请先启用：
+
+  控制面板 → 程序 → 启用或关闭 Windows 功能
+  → 勾选「.NET Framework 3.5（包括 .NET 2.0 和 3.0）」→ 确定
+  → 重启电脑 → 再运行一次本补丁
+
+（一键脚本也会自动检测并在你同意时尝试启用）
+
+
+【怎么确认装成功了】
+
+方法一：看一键脚本的输出，末尾显示
+        [OK] 注册表 PowerShellVersion = 2.0
+        即为成功
+
+方法二：手动检查注册表
+        Win + R → 输入 regedit → 回车
+        定位到：HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1
+                \PowerShellEngine
+        右侧应存在一行：PowerShellVersion  值为  2.0
+
+
+【手动方式（备用，一键脚本被拦截时用）】
+
+  1. 右键开始菜单 → 「Windows 终端(管理员)」或「PowerShell(管理员)」
+  2. 依次执行：
+        Set-ExecutionPolicy Bypass -Scope Process -Force
+        cd /d 解压出来的 ps2DLC 文件夹的路径
+        .\loadGAC.ps1
+  3. 看到 "Registry import succeeded." 即成功
+
+  注意：必须是管理员窗口，否则会提示
+  "This script must be run as Administrator."
+
+
+【安全性说明 —— 可放心转发】
+
+  · 本补丁全部内容来自微软官方，是微软在支持页面
+    「PowerShell 2.0 removal from Windows」(KB5065506) 中提供的
+    临时缓解包 ps2DLC.zip，未做任何修改
+
+  · 作用仅两件事：
+      1) 把 9 个 PowerShell 2.0 程序集注册进全局程序集缓存(GAC)
+      2) 导入 2 个注册表项（PowerShell\1 下）
+    不修改系统文件、不联网、不改启动项、无任何第三方代码
+
+  · 可在装完 SQL Server 后随时移除（见下方「如何移除」）
+
+  · 本机已实测：安装 SQL Server 2012 SP1 Enterprise 成功，
+    数据库引擎、Analysis Services、Reporting Services、SSMS 均正常
+
+
+【如何移除（可选）】
+
+补丁不影响系统正常使用，不移除也没关系。若确实想清理：
+  1. 以管理员身份运行 regedit，删除以下键：
+       HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PowerShell\1
+  2. 可选：卸载 GAC 中版本为 1.0.0.0 的 System.Management.Automation
+    （这是 PS2 的程序集，系统自带的 3.0.0.0 版本不受影响）
+
+  注意：移除后，SQL Server 安装程序的 PowerShell 2.0 检查会再次失败，
+        所以建议等 SQL Server 完全装好之后再考虑移除
+
+
+【常见问题】
+
+  Q1. 运行后提示"找不到 .NET Framework 3.5"
+      → 先按上面「前置条件」启用 .NET 3.5，再重新运行本补丁
+
+  Q2. 提示执行策略限制，无法运行脚本
+      → 一键脚本已自动绕过。手动方式请先执行：
+        Set-ExecutionPolicy Bypass -Scope Process -Force
+
+  Q3. 双击没反应 / 没弹 UAC
+      → 请确认是「右键 → 以管理员身份运行」，不是直接双击
+
+  Q4. 装完 SQL Server 还是报别的错
+      → 常见是缺 .NET Framework 3.5、或有挂起的重启，
+        先重启电脑再重试；仍失败可看安装日志：
+        C:\Program Files\Microsoft SQL Server\110\Setup Bootstrap\Log
+
+  Q5. 我装的是 SQL Server 2008 R2 / 2014，能用吗？
+      → 能。这三版安装程序都依赖 PowerShell 2.0，本补丁通用
+
+
+【补充：SQL Server 2012 安装时建议勾选的功能】
+
+  必选：
+    · 数据库引擎服务（核心）
+    · 管理工具 - 完整（SSMS 图形界面）
+
+  建议：
+    · 客户端工具连接
+    · 全文搜索和语义提取（需要文本搜索时）
+
+  按需：
+    · Analysis Services（多维分析/数据仓库）
+    · Reporting Services - 本机（做报表）
+    · Integration Services（ETL 数据抽取转换）
+
+  不建议：
+    · 客户端工具向后兼容、客户端工具 SDK、
+      分布式重播、Reporting Services - SharePoint
+
+  实例配置：单机使用选「默认实例」
+  身份验证：选「混合模式」并设置 sa 强密码（多数程序需要）
+  数据目录：建议改到非系统盘（如 D:\SQLData）
+
+========================================================

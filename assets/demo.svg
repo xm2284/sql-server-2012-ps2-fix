@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" font-family="Consolas, 'Courier New', 'Microsoft YaHei', monospace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1117"/>
+      <stop offset="1" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="titlebar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f2937"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="20" y="20" width="860" height="580" rx="14" fill="url(#bg)" stroke="#30363d" stroke-width="2"/>
+  <rect x="20" y="20" width="860" height="42" rx="14" fill="url(#titlebar)"/>
+  <rect x="20" y="48" width="860" height="14" fill="url(#titlebar)"/>
+
+  <!-- 窗口按钮 -->
+  <circle cx="46" cy="41" r="6" fill="#ff5f56"/>
+  <circle cx="66" cy="41" r="6" fill="#ffbd2e"/>
+  <circle cx="86" cy="41" r="6" fill="#27c93f"/>
+  <text x="450" y="46" text-anchor="middle" fill="#9aa4b2" font-size="14" font-weight="bold">管理员: SQL Server 2012 Patch - PowerShell 2.0 Fix</text>
+
+  <!-- 顶部横幅 -->
+  <text x="450" y="108" text-anchor="middle" fill="#ffffff" font-size="26" font-weight="bold">========================================================</text>
+  <text x="450" y="138" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="bold">SQL Server 2012 安装补丁  -  PowerShell 2.0 修复</text>
+  <text x="450" y="168" text-anchor="middle" fill="#ffffff" font-size="26" font-weight="bold">========================================================</text>
+
+  <!-- 状态行 -->
+  <text x="70" y="212" fill="#3fb950" font-size="18" font-weight="bold">  [OK]</text>
+  <text x="140" y="212" fill="#e6edf3" font-size="18">管理员权限已确认</text>
+
+  <text x="70" y="248" fill="#3fb950" font-size="18" font-weight="bold">  [OK]</text>
+  <text x="140" y="248" fill="#e6edf3" font-size="18">补丁文件已就位</text>
+
+  <text x="70" y="284" fill="#58a6ff" font-size="18" font-weight="bold">  [..]</text>
+  <text x="140" y="284" fill="#e6edf3" font-size="18">正在检查 .NET Framework 3.5 ...</text>
+
+  <text x="70" y="320" fill="#3fb950" font-size="18" font-weight="bold">  [OK]</text>
+  <text x="140" y="320" fill="#e6edf3" font-size="18">.NET Framework 3.5 已安装 (版本 3.5.30729.4926)</text>
+
+  <text x="70" y="356" fill="#58a6ff" font-size="18" font-weight="bold">  [..]</text>
+  <text x="140" y="356" fill="#e6edf3" font-size="18">正在安装 PowerShell 2.0 程序集到 GAC 并写入注册表 ...</text>
+
+  <text x="70" y="392" fill="#3fb950" font-size="18" font-weight="bold">  [OK]</text>
+  <text x="140" y="392" fill="#e6edf3" font-size="18">注册表导入成功</text>
+
+  <!-- 验证 -->
+  <text x="70" y="440" fill="#58a6ff" font-size="18" font-weight="bold">  [..]</text>
+  <text x="140" y="440" fill="#e6edf3" font-size="18">正在验证安装结果 ...</text>
+
+  <text x="70" y="476" fill="#3fb950" font-size="18" font-weight="bold">  [OK]</text>
+  <text x="140" y="476" fill="#e6edf3" font-size="18">注册表 PowerShellVersion = 2.0</text>
+
+  <text x="70" y="512" fill="#3fb950" font-size="18" font-weight="bold">  [OK]</text>
+  <text x="140" y="512" fill="#e6edf3" font-size="18">GAC 中已注册 PS2 程序集 (1.0.0.0)</text>
+
+  <!-- 成功横幅 -->
+  <rect x="150" y="540" width="600" height="40" rx="8" fill="#0f3d1f" stroke="#3fb950" stroke-width="2"/>
+  <text x="450" y="566" text-anchor="middle" fill="#3fb950" font-size="18" font-weight="bold">  补丁安装成功！请重新运行 SQL Server 安装程序</text>
+</svg>
